@@ -1,0 +1,187 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs3p1yaei6bou"]
+
+[ext_resource type="Script" uid="uid://dcdvtwnijbiml" path="res://scripts/game.gd" id="1_1h2xq"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1h2xq")
+
+[node name="Backdrop" type="Node2D" parent="."]
+
+[node name="FishLayer" type="Node2D" parent="."]
+
+[node name="BoatSprite" type="Sprite2D" parent="."]
+position = Vector2(640, 84)
+
+[node name="Rod" type="Node2D" parent="."]
+position = Vector2(640, 120)
+
+[node name="RodSprite" type="Sprite2D" parent="Rod"]
+position = Vector2(0, -26)
+
+[node name="LureSprite" type="Sprite2D" parent="Rod"]
+position = Vector2(0, 44)
+
+[node name="CastLine" type="Line2D" parent="."]
+width = 3.0
+default_color = Color(0.08, 0.08, 0.08, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MenuLayer" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MenuBackdrop" type="ColorRect" parent="UI/MenuLayer"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.03, 0.06, 0.1, 0.86)
+
+[node name="MenuTitleLabel" type="Label" parent="UI/MenuLayer"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 110.0
+offset_right = 980.0
+offset_bottom = 180.0
+text = "LEICESTER CAST CHALLENGE"
+
+[node name="MobileLayer" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="MobileHintLabel" type="Label" parent="UI/MobileLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -130.0
+offset_right = 260.0
+offset_bottom = -90.0
+text = "HOLD TO CHARGE | TAP SPACE AREA TO REEL | HOLD ARROWS WHILE REELING"
+
+[node name="MobileLeftButton" type="Button" parent="UI/MobileLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -210.0
+offset_right = -190.0
+offset_bottom = -120.0
+text = "LEFT"
+
+[node name="MobileChargeButton" type="Button" parent="UI/MobileLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -250.0
+offset_right = 150.0
+offset_bottom = -120.0
+text = "HOLD TO CHARGE"
+
+[node name="MobileRightButton" type="Button" parent="UI/MobileLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 190.0
+offset_top = -210.0
+offset_right = 320.0
+offset_bottom = -120.0
+text = "RIGHT"
+
+[node name="MenuStartLabel" type="Label" parent="UI/MenuLayer"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 220.0
+offset_right = 980.0
+offset_bottom = 310.0
+text = "PRESS SPACE TO START"
+
+[node name="MenuReasonLabel" type="Label" parent="UI/MenuLayer"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 320.0
+offset_right = 1100.0
+offset_bottom = 430.0
+text = "Charge the cast, reel through fish, and earn more money from rare colors."
+
+[node name="MenuControlsLabel" type="Label" parent="UI/MenuLayer"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 450.0
+offset_right = 1120.0
+offset_bottom = 600.0
+text = "TOUCH: hold the center button to charge, tap the screen to reel, hold LEFT/RIGHT while reeling | DESKTOP: SPACE and arrows still work"
+
+[node name="ActionPromptLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 220.0
+offset_right = 520.0
+offset_bottom = 320.0
+text = "SPACE"
+
+[node name="ActionReasonLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 320.0
+offset_right = 720.0
+offset_bottom = 400.0
+
+[node name="ArrowHintLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 400.0
+offset_right = 760.0
+offset_bottom = 460.0
+
+[node name="MeterFrame" type="ColorRect" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 340.0
+offset_bottom = 52.0
+color = Color(0.1, 0.12, 0.14, 0.88)
+
+[node name="MeterFill" type="ColorRect" parent="UI/MeterFrame"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 3.0
+offset_bottom = 29.0
+color = Color(0.98, 0.76, 0.24, 1)
+
+[node name="StateLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 640.0
+offset_bottom = 94.0
+text = "State"
+
+[node name="CatchLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 134.0
+offset_right = 320.0
+offset_bottom = 168.0
+text = "Fish Caught: 0"
+
+[node name="MoneyLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 168.0
+offset_right = 360.0
+offset_bottom = 202.0
+text = "Money: $0"
+
+[node name="HintLabel" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 94.0
+offset_right = 980.0
+offset_bottom = 132.0
+text = "Hold SPACE to charge power. Release SPACE to cast in an arc. Press SPACE at bottom to reel up (LEFT/RIGHT moves rod), then SPACE again at top to reel to boat. Colored fish spawn farther out and are worth more money."
