@@ -21,15 +21,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Export Godot Web Build
-        uses: firebelley/godot-export@v6.0.0
-        with:
-          relative_project_path: ./
-          cache: true
-          archive_output: false
-          use_preset_export_path: true
-          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6.2-stable/Godot_v4.6.2-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6.2-stable/Godot_v4.6.2-stable_export_templates.tpz
+        run: |
+          set -e
+          GODOT_VERSION=4.6.2-stable
+          GODOT_DIR="$HOME/godot"
+          mkdir -p "$GODOT_DIR"
+          wget -q -O "$GODOT_DIR/godot.zip" "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          unzip -q "$GODOT_DIR/godot.zip" -d "$GODOT_DIR"
+          chmod +x "$GODOT_DIR/Godot_v${GODOT_VERSION}_linux.x86_64"
+
+          mkdir -p "$HOME/.local/share/godot/export_templates/$GODOT_VERSION"
+          wget -q -O /tmp/godot_templates.tpz "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          python3 - <<'PY'
+import pathlib, shutil, zipfile
+src = pathlib.Path('/tmp/godot_templates.tpz')
+extract_dir = pathlib.Path('/tmp/godot_templates_extract')
+dst = pathlib.Path.home() / '.local/share/godot/export_templates/4.6.2.stable'
+shutil.rmtree(extract_dir, ignore_errors=True)
+extract_dir.mkdir(parents=True, exist_ok=True)
+with zipfile.ZipFile(src) as zf:
+    zf.extractall(extract_dir)
+for item in extract_dir.rglob('*'):
+    if item.is_file() and item.suffix in ('.zip', '.tpz'):
+        shutil.copy2(item, dst / item.name)
+PY
+
+          "$GODOT_DIR/Godot_v${GODOT_VERSION}_linux.x86_64" --headless --path . --export-release Web docs/index.html
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
